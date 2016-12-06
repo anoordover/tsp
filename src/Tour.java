@@ -117,12 +117,30 @@ public class Tour {
         if (first == null) {
             // hier moet je het aanmaken van de eerste Node doen en toekennen aan first.
             // De next van deze node moet verwijzen naar first (een cirkel met 1 punt)
+
+            /*
+            Voorbeeld code voor aanmaken van een Node voor punt p dat naar zichzelf verwijst:
+             Node n = new Node();
+             n.p = p;
+             n.next = n;
+             */
+
         } else {
             // Hier eerst het laatste punt in de linkedlist vinden.
             // Vervolgens een nieuwe Node maken voor het nieuwe punt.
             // Daarna "next" uit het laatste punt naar deze nieuwe node laten verwijzen
             // Daarna "next" van jouw nieuwe node laten verwijzen naar first om
             // de cyclus weer dicht te maken
+
+            /*
+            Voorbeeld code voor aanmaken van een Node na Node n1:
+            Node n = new Node();
+            n.p = p;
+            n.next = n1.next;
+            n1.next = n;
+             */
+
         }
     }
+
 }

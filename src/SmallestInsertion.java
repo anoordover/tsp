@@ -12,7 +12,7 @@
  *
  *************************************************************************/
 
-public class OrderInsertion {
+public class SmallestInsertion {
 
     public static void main(String[] args) {
 
@@ -33,7 +33,7 @@ public class OrderInsertion {
             double x = in.readDouble();
             double y = in.readDouble();
             Point p = new Point(x, y);
-            tour.insertInOrder(p);
+            tour.insertSmallest(p);
 
             // uncomment the 4 lines below to animate
             StdDraw.clear();

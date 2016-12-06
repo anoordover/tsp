@@ -12,7 +12,7 @@
  *
  *************************************************************************/
 
-public class OrderInsertion {
+public class NearestInsertion {
 
     public static void main(String[] args) {
 
@@ -33,13 +33,13 @@ public class OrderInsertion {
             double x = in.readDouble();
             double y = in.readDouble();
             Point p = new Point(x, y);
-            tour.insertInOrder(p);
+            tour.insertNearest(p);
 
             // uncomment the 4 lines below to animate
-            StdDraw.clear();
-            tour.draw();
-            StdDraw.text(100, 0, "" + tour.distance());
-            StdDraw.show(50);
+            // StdDraw.clear();
+            // tour.draw();
+            // StdDraw.text(100, 0, "" + tour.distance());
+            // StdDraw.show(50);
         }
 
         // draw to standard draw
