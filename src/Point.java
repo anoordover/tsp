@@ -7,8 +7,8 @@
  ******************************************************************************/
 
 public class Point {
-    private double x;   // Cartesian
-    private double y;   // coordinates
+    double x;   // Cartesian
+    double y;   // coordinates
 
     // create and initialize a point with given (x, y)
     public Point(double x, double y) {

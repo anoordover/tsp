@@ -4,25 +4,33 @@
 public class Tour {
 
     Node first;
+    double distance;
 
     public Tour() {
 
     }
 
     public Tour(Point a, Point b, Point c, Point d) {
-        Node nodeA = new Node();
-        Node nodeB = new Node();
-        Node nodeC = new Node();
-        Node nodeD = new Node();
-        nodeA.p = a;
-        nodeB.p = b;
-        nodeC.p = c;
-        nodeD.p = d;
-        nodeA.next = nodeB;
-        nodeB.next = nodeC;
-        nodeC.next = nodeD;
-        nodeD.next = nodeA;
-        first = nodeA;
+        Node nodeA = new Node(a);
+        Node nodeB = new Node(b);
+        Node nodeC = new Node(c);
+        Node nodeD = new Node(d);
+        addNodeAfter(null, nodeA);
+        addNodeAfter(nodeA, nodeB);
+        addNodeAfter(nodeB, nodeC);
+        addNodeAfter(nodeC, nodeD);
+    }
+
+    private void addNodeAfter(Node after, Node insert) {
+        if (after == null) {
+            insert.next = insert;
+            first = insert;
+        } else {
+            distance = distance - after.p.distanceTo(after.next.p);
+            insert.next = after.next;
+            after.next = insert;
+            distance = distance + after.p.distanceTo(insert.p) + insert.p.distanceTo(insert.next.p);
+        }
     }
 
     public void show() {
@@ -69,20 +77,50 @@ public class Tour {
     }
 
     public double distance() {
-        double distance = 0.0;
-        if (first != null) {
-            Node current = first;
-            do {
-                distance += current.p.distanceTo(current.next.p);
-                current = current.next;
-            } while (current != first);
-        }
         return distance;
     }
 
-    public void insertNearest(Point p) {}
+    public void insertNearest(Point p) {
+        addNodeAfter(getNearest(p), new Node(p));
+    }
 
-    public void insertSmallest(Point p) {}
+    private Node getNearest(Point p) {
+        if (first == null) {
+            return null;
+        }
+        Node current = first;
+        Node found = first;
+        double minDistance = Double.MAX_VALUE;
+        do {
+            if (current.p.distanceTo(p) < minDistance) {
+                found = current;
+                minDistance = current.p.distanceTo(p);
+            }
+            current = current.next;
+        } while (current != first);
+        return found;
+    }
+
+    public void insertSmallest(Point p) {
+        addNodeAfter(getSmallest(p), new Node(p));
+    }
+
+    private Node getSmallest(Point p) {
+        if (first == null){
+            return null;
+        }
+        Node current = first;
+        Node found = first;
+        double minDistance = Double.MAX_VALUE;
+        do {
+            if (current.p.distanceTo(p) + p.distanceTo(current.next.p) - current.p.distanceTo(current.next.p) < minDistance) {
+                minDistance = current.p.distanceTo(p) + p.distanceTo(current.next.p) - current.p.distanceTo(current.next.p);
+                found = current;
+            }
+            current = current.next;
+        } while (current != first);
+        return found;
+    }
 
     // main method for testing
     public static void main(String[] args) {
@@ -97,8 +135,10 @@ public class Tour {
         Tour squareTour = new Tour(a, b, c, d);
 
         // Output the Tour
+        squareTour.swap(squareTour.first, squareTour.first.next.next);
         squareTour.show();
         StdOut.println(squareTour.distance());
+        StdOut.println(squareTour.deltaForSwap(squareTour.first, squareTour.first.next.next));
 
         StdDraw.setXscale(0, 600);
         StdDraw.setYscale(0, 600);
@@ -106,41 +146,48 @@ public class Tour {
     }
 
     public void insertInOrder(Point p) {
-        //TODO:
-        /*
-        Sam, hier moet je de opdracht van de eerst bullet uitvoeren.
-        Het punt p toevoegen aan het einde van de "linked list".
-        Let hierbij op het volgende:
-        Bij het toevoegen van het eerste punt is first gelijk aan null.
-        Hier moet je iets anders doen dan bij het toevoegen van de andere punten.
-         */
         if (first == null) {
-            // hier moet je het aanmaken van de eerste Node doen en toekennen aan first.
-            // De next van deze node moet verwijzen naar first (een cirkel met 1 punt)
-
-            /*
-            Voorbeeld code voor aanmaken van een Node voor punt p dat naar zichzelf verwijst:
-             Node n = new Node();
-             n.p = p;
-             n.next = n;
-             */
-
+            addNodeAfter(null, new Node(p));
         } else {
-            // Hier eerst het laatste punt in de linkedlist vinden.
-            // Vervolgens een nieuwe Node maken voor het nieuwe punt.
-            // Daarna "next" uit het laatste punt naar deze nieuwe node laten verwijzen
-            // Daarna "next" van jouw nieuwe node laten verwijzen naar first om
-            // de cyclus weer dicht te maken
-
-            /*
-            Voorbeeld code voor aanmaken van een Node na Node n1:
-            Node n = new Node();
-            n.p = p;
-            n.next = n1.next;
-            n1.next = n;
-             */
-
+            addNodeAfter(getLastNode(), new Node(p));
         }
     }
 
+    private Node getLastNode() {
+        if (first == null) {
+            return null;
+        }
+        Node current = first;
+        do {
+            current = current.next;
+        } while (current.next != first);
+        return current;
+    }
+
+    public double deltaForSwap(Node from, Node to) {
+        double currentDistance = from.p.distanceTo(from.next.p) + to.p.distanceTo(to.next.p);
+        double newDistance = from.p.distanceTo(to.p) + to.next.p.distanceTo(from.next.p);
+        return currentDistance - newDistance;
+    }
+
+    public void swap(Node from, Node to) {
+        distance = distance - deltaForSwap(from, to);
+        if (from.next == to) {
+            return;
+        }
+        Node beginRoute = from;
+        Node endRoute = to.next;
+        Node ingang = from.next;
+        Node node1 = from.next;
+        Node node2 = node1.next;
+        Node node3 = node2.next;
+        do {
+            node2.next = node1;
+            node1 = node2;
+            node2 = node3;
+            node3 = node3.next;
+        } while (node1 != to);
+        ingang.next = endRoute;
+        beginRoute.next = to;
+    }
 }

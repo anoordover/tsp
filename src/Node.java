@@ -9,6 +9,10 @@
  *************************************************************************/
 
 public class Node {
-  public Point p;
-  public Node next;
+    public Point p;
+    public Node next;
+
+    public Node(Point p) {
+        this.p = p;
+    }
 }
