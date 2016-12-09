@@ -17,7 +17,7 @@ public class SmallestInsertion {
     public static void main(String[] args) {
 
         // get dimensions
-        In in = new In("data/bier127.txt");
+        In in = new In("data/tsp100.txt");
         int w = in.readInt();
         int h = in.readInt();
         StdDraw.setCanvasSize(w, h);
@@ -36,10 +36,10 @@ public class SmallestInsertion {
             tour.insertSmallest(p);
 
             // uncomment the 4 lines below to animate
-            //StdDraw.clear();
-            //tour.draw();
-            //StdDraw.text(100, 0, "" + tour.distance());
-            //StdDraw.show(50);
+            StdDraw.clear();
+            tour.draw();
+            StdDraw.text(100, 0, "" + tour.distance());
+            StdDraw.show(500);
         }
 
         // draw to standard draw
@@ -50,7 +50,7 @@ public class SmallestInsertion {
         StdOut.printf("Tour distance =  %.4f\n", tour.distance());
         StdOut.printf("Number of points = %d\n", tour.size());
         tour.show();
-
+/*
         Node current = tour.first;
         boolean swap = true;
         while (swap) {
@@ -84,7 +84,7 @@ public class SmallestInsertion {
         StdOut.printf("Tour distance =  %.4f\n", tour.distance());
         StdOut.printf("Number of points = %d\n", tour.size());
         tour.show();
-
+*/
     }
 
 }

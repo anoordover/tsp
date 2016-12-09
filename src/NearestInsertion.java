@@ -17,7 +17,7 @@ public class NearestInsertion {
     public static void main(String[] args) {
 
         // get dimensions
-        In in = new In("data/tsp10.txt");
+        In in = new In("data/tsp100.txt");
         int w = in.readInt();
         int h = in.readInt();
         StdDraw.setCanvasSize(w, h);
@@ -36,10 +36,10 @@ public class NearestInsertion {
             tour.insertNearest(p);
 
             // uncomment the 4 lines below to animate
-            //StdDraw.clear();
-            //tour.draw();
-            //StdDraw.text(100, 0, "" + tour.distance());
-            //StdDraw.show(5);
+            StdDraw.clear();
+            tour.draw();
+            StdDraw.text(100, 0, "" + tour.distance());
+            StdDraw.show(50);
         }
 
         // draw to standard draw
@@ -50,7 +50,7 @@ public class NearestInsertion {
         StdOut.printf("Tour distance =  %.4f\n", tour.distance());
         StdOut.printf("Number of points = %d\n", tour.size());
         tour.show();
-
+/*
         Node current = tour.first;
         boolean swap = true;
         while (swap) {
@@ -80,7 +80,7 @@ public class NearestInsertion {
         StdOut.printf("Tour distance =  %.4f\n", tour.distance());
         StdOut.printf("Number of points = %d\n", tour.size());
         tour.show();
-
+*/
     }
 
 }
