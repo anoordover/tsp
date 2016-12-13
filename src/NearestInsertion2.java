@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 /*************************************************************************
  *  YOU DO NOT NEED TO MODIFY THIS FILE
  *
@@ -12,7 +15,7 @@
  *
  *************************************************************************/
 
-public class SmallestInsertion {
+public class NearestInsertion2 {
 
     public static void main(String[] args) {
 
@@ -27,15 +30,32 @@ public class SmallestInsertion {
         // turn on animation mode
         StdDraw.show(0);
 
+        List<Point> points = new ArrayList<>();
         // run smallest insertion heuristic
-        Tour tour = new Tour();
         while (!in.isEmpty()) {
             double x = in.readDouble();
             double y = in.readDouble();
             Point p = new Point(x, y);
-            tour.insertSmallest(p);
+            points.add(p);
+        }
 
-            // uncomment the 4 lines below to animate
+        Tour tour = new Tour();
+        Point previous = points.get(0);
+        tour.insertNearest(previous);
+        points.remove(0);
+
+        while (!points.isEmpty()) {
+            double minDistance = Double.MAX_VALUE;
+            int minIndex = 0;
+            for (int i = 0; i < points.size(); i++) {
+                if (previous.distanceTo(points.get(i)) < minDistance) {
+                    minDistance = previous.distanceTo(points.get(i));
+                    minIndex = i;
+                }
+            }
+            previous = points.get(minIndex);
+            points.remove(minIndex);
+            tour.insertNearest(previous);
             StdDraw.clear();
             tour.draw();
             StdDraw.text(100, 0, "" + tour.distance());
@@ -45,7 +65,7 @@ public class SmallestInsertion {
         // draw to standard draw
         tour.draw();
         StdDraw.show(0);
-
+        
         // print tour to standard output
         StdOut.printf("Tour distance =  %.4f\n", tour.distance());
         StdOut.printf("Number of points = %d\n", tour.size());
@@ -55,10 +75,7 @@ public class SmallestInsertion {
         boolean swap = true;
         while (swap) {
             swap = false;
-            int i = 0;
             while (current.next.next != tour.first) {
-                StdOut.println(i);
-                i++;
                 Node inner = current.next.next;
                 while (inner != tour.first) {
                     if (tour.deltaForSwap(current, inner) > 0.0) {
@@ -66,7 +83,6 @@ public class SmallestInsertion {
                         StdDraw.circle(inner.p.x, inner.p.y, 5.0);
                         StdDraw.show(50);
                         tour.swap(current, inner);
-                        StdOut.printf("Tour distance =  %.4f\n", tour.distance());
                         swap = true;
                     }
                     StdDraw.clear();
