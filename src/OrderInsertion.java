@@ -17,7 +17,7 @@ public class OrderInsertion {
     public static void main(String[] args) {
 
         // get dimensions
-        In in = new In("data/bier127.txt");
+        In in = new In("data/tsp100.txt");
         int w = in.readInt();
         int h = in.readInt();
         StdDraw.setCanvasSize(w, h);
