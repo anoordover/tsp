@@ -38,7 +38,7 @@ public class NearestInsertion {
             // uncomment the 4 lines below to animate
             StdDraw.clear();
             tour.draw();
-            StdDraw.text(100, 0, "" + tour.distance());
+            StdDraw.text(100, 10, "" + tour.distance());
             StdDraw.show(50);
         }
 

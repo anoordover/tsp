@@ -58,7 +58,7 @@ public class SmallestInsertion2 {
             tour.insertSmallest(previous);
             StdDraw.clear();
             tour.draw();
-            StdDraw.text(100, 0, "" + tour.distance());
+            StdDraw.text(100, 10, "" + tour.distance());
             StdDraw.show(50);
         }
 
